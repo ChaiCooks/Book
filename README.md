@@ -1,2 +1,0 @@
-# Book
-English RTextbook Resources
