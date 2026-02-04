@@ -407,6 +407,143 @@
         align-items: center;
         gap: 0.25rem;
       }
+      /* Test Generator Section */
+
+      .testgen-section {
+        padding: 4rem 5%;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.05),
+          rgba(236, 72, 153, 0.05)
+        );
+        border-top: 1px solid var(--border);
+      }
+
+      .testgen-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .testgen-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .testgen-card {
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: 1.5rem;
+        padding: 3rem;
+        position: relative;
+        overflow: hidden;
+        transition: var(--transition);
+      }
+
+      .testgen-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+      }
+
+      .testgen-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(99, 102, 241, 0.1) 0%,
+          transparent 70%
+        );
+        animation: rotate 20s linear infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .testgen-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .testgen-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .testgen-desc {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-inline: auto;
+      }
+
+      .testgen-features {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .testgen-feature {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .testgen-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: var(--transition);
+        box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.5);
+      }
+
+      .testgen-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.6);
+      }
+
+      .testgen-btn svg {
+        width: 20px;
+        height: 20px;
+      }
       /* Reading Mode Styles */
 
       body.reading-mode {
@@ -432,6 +569,13 @@
         .chapters-grid {
           grid-template-columns: 1fr;
         }
+        .testgen-card {
+          padding: 2rem 1.5rem;
+        }
+        .testgen-features {
+          flex-direction: column;
+          gap: 1rem;
+        }
       }
       /* Scroll Reveal */
 
@@ -454,9 +598,8 @@
         <div class="logo">📚 Tapestry</div>
         <div class="nav-links">
           <a href="#home">Home</a>
-          <a href="#prose">Prose</a>
-          <a href="#poetry">Poetry</a>
-          <a href="#references">References</a>
+          <a href="#content">Collection</a>
+          <a href="#testgen">Test Generator</a>
         </div>
         <div class="controls">
           <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme">
@@ -522,7 +665,9 @@
         <button class="tab-btn" onclick="filterChapters('poetry')">
           Poetry
         </button>
-        <button class="tab-btn" onclick="filterChapters('drama')">Drama</button>
+        <button class="tab-btn" onclick="filterChapters('drama')">
+          Drama
+        </button>
       </div>
 
       <div class="chapters-grid" id="chaptersGrid">
@@ -699,6 +844,53 @@
             <span class="explore-link">Explore →</span>
           </div>
         </a>
+      </div>
+    </section>
+
+    <!-- Test Generator Section -->
+    <section class="testgen-section" id="testgen">
+      <div class="testgen-container reveal">
+        <div class="testgen-icon">🎓</div>
+        <div class="testgen-card">
+          <div class="testgen-content">
+            <h2 class="testgen-title">Test Question Generator</h2>
+            <p class="testgen-desc">
+              Prepare for exams with AI-powered practice questions. Generate
+              customized MCQs, HOTS, and extract-based questions for any chapter
+              in the collection.
+            </p>
+            <div class="testgen-features">
+              <div class="testgen-feature">
+                <span>✅</span>
+                <span>Multiple Choice Questions</span>
+              </div>
+              <div class="testgen-feature">
+                <span>🧠</span>
+                <span>Higher Order Thinking Skills</span>
+              </div>
+              <div class="testgen-feature">
+                <span>📄</span>
+                <span>Extract-Based Questions</span>
+              </div>
+            </div>
+            <a href="test-generator.html" class="testgen-btn">
+              <span>Generate Questions</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
