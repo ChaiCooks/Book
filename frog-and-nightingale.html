@@ -1,0 +1,503 @@
+# Create The Frog and the Nightingale HTML page frog_html = '''
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Frog and the Nightingale - Vikram Seth | Tapestry</title>
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary: #ec4899;
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --surface-light: #334155;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --border: #475569;
+        --accent: #fbbf24;
+        --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      [data-theme="light"] {
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --surface-light: #f1f5f9;
+        --text: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 5%;
+      }
+
+      [data-theme="light"] nav {
+        background: rgba(248, 250, 252, 0.95);
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+      }
+
+      .back-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+      }
+
+      .back-link:hover {
+        color: var(--primary);
+      }
+
+      .btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .btn-icon:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 8rem 5% 4rem;
+      }
+
+      .work-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .work-type {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: rgba(236, 72, 153, 0.2);
+        color: var(--secondary);
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(
+          135deg,
+          var(--text) 0%,
+          var(--text-muted) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .author {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+      }
+
+      .content-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .content-section h2 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .poem-text {
+        font-family: "Georgia", serif;
+        font-size: 1.1rem;
+        line-height: 2;
+        color: var(--text);
+        white-space: pre-line;
+        padding: 2rem;
+        background: var(--surface-light);
+        border-radius: 0.5rem;
+      }
+
+      .summary {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--text-muted);
+      }
+
+      .themes-list {
+        list-style: none;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .themes-list li {
+        padding: 1rem;
+        background: var(--surface-light);
+        border-radius: 0.5rem;
+        border-left: 4px solid var(--primary);
+      }
+
+      .themes-list strong {
+        color: var(--text);
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      .question {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .question:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .question h4 {
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .vocab-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .vocab-item {
+        padding: 1rem;
+        background: var(--surface-light);
+        border-radius: 0.5rem;
+      }
+
+      .vocab-item strong {
+        color: var(--primary);
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      .vocab-item span {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .project-box {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.1),
+          rgba(236, 72, 153, 0.1)
+        );
+        border: 1px solid var(--primary);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .project-box h4 {
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .project-box p {
+        color: var(--text-muted);
+      }
+
+      @media (max-width: 768px) {
+        main {
+          padding: 7rem 1rem 2rem;
+        }
+        .content-section {
+          padding: 1.5rem;
+        }
+        .poem-text {
+          font-size: 1rem;
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav-container">
+        <a href="index.html" class="back-link">← Back to Collection</a>
+        <a href="index.html" class="logo">📚 Tapestry</a>
+        <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </nav>
+
+    <main>
+      <header class="work-header">
+        <span class="work-type">Poetry</span>
+        <h1>The Frog and the Nightingale</h1>
+        <p class="author">by Vikram Seth</p>
+      </header>
+
+      <section class="content-section">
+        <h2>📜 The Poem (Excerpt)</h2>
+        <div class="poem-text">
+          Every day the frog who'd sold her Songs for silver tried to scold her:
+          "You must practice even longer Till your voice, like mine grows
+          stronger. In the second song last night You got nervous in mid-flight.
+          And, my dear, lay on more trills: Audiences enjoy such frills. You
+          must make your public happier: Give them something sharper snappier.
+          We must aim for better billings. You still owe me sixty shillings."
+          Day by day the nightingale Grew more sorrowful and pale. Night on
+          night her tired song Zipped and trilled and bounced along, Till the
+          birds and beasts grew tired At a voice so uninspired And the ticket
+          office gross Crashed, and she grew more morose - For her ears were now
+          addicted To applause quite unrestricted, And to sing into the night
+          All alone gave no delight. Now the frog puffed up with rage.
+          "Brainless bird - you're on the stage - Use your wits and follow
+          fashion. Puff your lungs out with your passion." Trembling, terrified
+          to fail, Blind with tears, the nightingale Heard him out in silence,
+          tried, Puffed up, burst a vein, and died. Said the frog: "I tried to
+          teach her, But she was a stupid creature - Far too nervous, far too
+          tense. Far too prone to influence. Well, poor bird - she should have
+          known That your song must be your own. That's why I sing with panache:
+          'Koo-oh-ah! ko-ash! ko-ash!' And the foghorn of the frog Blared
+          unrivalled through the bog.
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2>📖 Summary</h2>
+        <p class="summary">
+          In this modern fable, a frog with a "foghorn" voice exploits a
+          talented nightingale who possesses a naturally beautiful voice. The
+          frog becomes her "manager," charging admission for her performances
+          and constantly criticizing her to assert control. Under his relentless
+          pressure to practice longer, add more trills, and please the audience,
+          the nightingale loses her natural gift and her health. When audiences
+          tire of her mechanical performances and ticket sales crash, the frog
+          berates her further. Trying to follow his final command to "puff your
+          lungs out with your passion," the nightingale bursts a vein and dies.
+          The frog blames her for being a "stupid creature" and continues his
+          loud, tuneless croaking, unrivaled once again.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2>🎯 Key Themes</h2>
+        <ul class="themes-list">
+          <li>
+            <strong>Exploitation and Manipulation</strong> The frog represents
+            those who exploit talent for personal gain, using criticism and
+            false expertise to control others.
+          </li>
+          <li>
+            <strong>The Destruction of Authenticity</strong> The nightingale
+            loses her natural gift when she tries to conform to the frog's
+            commercial demands and artificial standards.
+          </li>
+          <li>
+            <strong>Addiction to Validation</strong> The nightingale becomes
+            addicted to "applause unrestricted," losing the ability to sing for
+            pure joy.
+          </li>
+          <li>
+            <strong>Toxic Mentorship</strong> The poem critiques mentors who
+            destroy their students' confidence while claiming to help them
+            improve.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2>🔍 Deep Dive Questions</h2>
+
+        <div class="question">
+          <h4>1. Personification of Dark Human Nature</h4>
+          <p>
+            How does the personification of the frog's character represent the
+            darker aspects of human nature? What human traits does he embody?
+          </p>
+        </div>
+
+        <div class="question">
+          <h4>2. External Validation</h4>
+          <p>
+            How does the nightingale's fate serve as a cautionary tale about the
+            dangers of external validation? What happens when we depend entirely
+            on others' approval?
+          </p>
+        </div>
+
+        <div class="question">
+          <h4>3. Language and Imagery</h4>
+          <p>
+            How does Vikram Seth's use of language and imagery contribute to the
+            overall impact of the poem? Consider words like "foghorn,"
+            "addicted," and "morose."
+          </p>
+        </div>
+
+        <div class="question">
+          <h4>4. Irony of the Ending</h4>
+          <p>
+            Discuss the irony in the frog's final statement: "your song must be
+            your own." How is this hypocritical given his actions throughout the
+            poem?
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2>📚 Word Whiz</h2>
+        <div class="vocab-grid">
+          <div class="vocab-item">
+            <strong>Shillings</strong>
+            <span
+              >A historic British coin; now currency in East African nations (1
+              shilling = 100 cents)</span
+            >
+          </div>
+          <div class="vocab-item">
+            <strong>Songs for Silver</strong>
+            <span
+              >The nightingale's beautiful natural melodies exploited for money
+              by the frog</span
+            >
+          </div>
+          <div class="vocab-item">
+            <strong>Trills</strong>
+            <span
+              >A quavering or vibratory sound, especially a rapid alternation of
+              sung musical notes</span
+            >
+          </div>
+          <div class="vocab-item">
+            <strong>Morose</strong>
+            <span>Sullen, ill-humored, gloomy</span>
+          </div>
+          <div class="vocab-item">
+            <strong>Panache</strong>
+            <span
+              >Flamboyant confidence of style or manner; verve,
+              flamboyance</span
+            >
+          </div>
+          <div class="vocab-item">
+            <strong>Billings</strong>
+            <span
+              >Advertising or promotion; the prominence given to performers in
+              publicity</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2>✍️ Project Catalyst</h2>
+
+        <div class="project-box">
+          <h4>Interior Monologue: The Final Night</h4>
+          <p>
+            Write an interior monologue (stream-of-thought) from the
+            nightingale's perspective on the night before her final performance.
+            Show her conflicting feelings: exhaustion, fear of disappointing the
+            frog, craving for applause, and a faint memory of how joyful her
+            natural singing once felt. Include sensory details of the bog at
+            night and references to specific things the frog has said. End
+            exactly at the moment she decides to follow his last instruction
+            without revealing her death.
+          </p>
+        </div>
+
+        <div class="project-box">
+          <h4>Modern Retelling</h4>
+          <p>
+            Rewrite this fable set in the modern music industry. Who plays the
+            role of the frog? What form does the "foghorn" take in contemporary
+            entertainment?
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function toggleTheme() {
+        const html = document.documentElement;
+        const icon = document.getElementById("theme-icon");
+        if (html.getAttribute("data-theme") === "dark") {
+          html.setAttribute("data-theme", "light");
+          icon.textContent = "☀️";
+          localStorage.setItem("theme", "light");
+        } else {
+          html.setAttribute("data-theme", "dark");
+          icon.textContent = "🌙";
+          localStorage.setItem("theme", "dark");
+        }
+      }
+
+      window.addEventListener("load", () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "light") toggleTheme();
+      });
+    </script>
+  </body>
+</html>

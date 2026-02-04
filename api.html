@@ -1,0 +1,1767 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tapestry AI Test Generator</title>
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary: #ec4899;
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --surface-light: #334155;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --border: #475569;
+        --accent: #fbbf24;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      [data-theme="light"] {
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --surface-light: #f1f5f9;
+        --text: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      /* Navigation */
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.9);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 5%;
+      }
+
+      [data-theme="light"] nav {
+        background: rgba(248, 250, 252, 0.9);
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .btn-icon:hover {
+        background: var(--primary);
+        color: white;
+        transform: scale(1.1);
+      }
+      /* Main Content */
+
+      .main-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 120px 20px 40px;
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .page-header p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+      }
+      /* Generator Card */
+
+      .generator-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .section-title span {
+        font-size: 1.5rem;
+      }
+      /* Topic Selection */
+
+      .topic-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .topic-category {
+        background: var(--surface-light);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        border: 2px solid transparent;
+        transition: var(--transition);
+      }
+
+      .topic-category:hover {
+        border-color: var(--primary);
+      }
+
+      .category-label {
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .topic-option {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+
+      .topic-option:hover {
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      .topic-option.selected {
+        background: rgba(99, 102, 241, 0.2);
+        border-color: var(--primary);
+      }
+
+      .topic-option input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 0.75rem;
+        accent-color: var(--primary);
+        cursor: pointer;
+        pointer-events: none;
+        /* Let label handle the click */
+      }
+
+      .topic-info {
+        flex: 1;
+        pointer-events: none;
+        /* Prevent double toggle */
+      }
+
+      .topic-name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .topic-count {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+      }
+      /* Question Counter */
+
+      .question-counter {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.1),
+          rgba(236, 72, 153, 0.1)
+        );
+        border: 2px solid var(--primary);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .counter-display {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin: 0.5rem 0;
+      }
+
+      .counter-label {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+      }
+
+      .counter-breakdown {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .breakdown-item {
+        text-align: center;
+      }
+
+      .breakdown-value {
+        font-weight: 700;
+        color: var(--secondary);
+      }
+      /* Settings */
+
+      .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .setting-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .setting-label {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+      }
+
+      select,
+      input[type="text"],
+      input[type="number"] {
+        padding: 0.875rem 1rem;
+        border-radius: 0.75rem;
+        border: 2px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+
+      select:focus,
+      input:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+      /* Generate Button */
+
+      .generate-btn {
+        width: 100%;
+        padding: 1.25rem;
+        border: none;
+        border-radius: 1rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        font-size: 1.25rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .generate-btn:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+      }
+
+      .generate-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      /* Output Section */
+
+      .output-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        box-shadow: var(--shadow);
+        display: none;
+      }
+
+      .output-section.active {
+        display: block;
+        animation: slideIn 0.5s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .paper-header {
+        text-align: center;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .paper-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .paper-meta {
+        color: var(--text-muted);
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .question-block {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .question-block:last-child {
+        border-bottom: none;
+      }
+
+      .section-header {
+        background: var(--surface-light);
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .section-name {
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .section-marks {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+      }
+
+      .question-item {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        background: var(--surface-light);
+        border-radius: 0.75rem;
+        border-left: 4px solid var(--primary);
+      }
+
+      .question-number {
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .question-text {
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .question-marks {
+        display: inline-block;
+        margin-top: 0.75rem;
+        padding: 0.25rem 0.75rem;
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--primary);
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        justify-content: center;
+      }
+
+      .action-btn {
+        padding: 1rem 2rem;
+        border-radius: 0.75rem;
+        border: 2px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .action-btn:hover {
+        border-color: var(--primary);
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      .action-btn.primary {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+      /* Loading Animation */
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 3rem;
+      }
+
+      .loading.active {
+        display: block;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--surface-light);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      /* Toast Notification */
+
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.25rem 2rem;
+        box-shadow: var(--shadow);
+        display: none;
+        align-items: center;
+        gap: 0.75rem;
+        z-index: 1001;
+      }
+
+      .toast.show {
+        display: flex;
+        animation: slideUp 0.3s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .toast.success {
+        border-left: 4px solid var(--success);
+      }
+
+      .toast.error {
+        border-left: 4px solid var(--error);
+      }
+      /* Responsive */
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .main-container {
+          padding-top: 100px;
+        }
+        .generator-card,
+        .output-section {
+          padding: 1.5rem;
+        }
+        .topic-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* Print Styles */
+
+      @media print {
+        nav,
+        .action-buttons,
+        .generator-card {
+          display: none !important;
+        }
+        .output-section {
+          display: block !important;
+          background: white;
+          color: black;
+          box-shadow: none;
+        }
+        .question-item {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav-container">
+        <a href="index.html" class="logo">📚 Tapestry</a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="index.html#prose">Prose</a>
+          <a href="index.html#poetry">Poetry</a>
+          <a href="index.html#references">References</a>
+          <a href="test-generator.html">Test Generator</a>
+        </div>
+        <div class="controls">
+          <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-container">
+      <div class="page-header">
+        <h1>📝 AI Test Generator</h1>
+        <p>Select multiple topics to generate a comprehensive question paper</p>
+      </div>
+
+      <div class="generator-card">
+        <div class="section-title">
+          <span>📋</span> Select Topics (Min 1, Max 3)
+        </div>
+
+        <div class="topic-grid">
+          <!-- Literature Section -->
+          <div class="topic-category">
+            <div class="category-label">📖 Literature</div>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="necklace"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">The Necklace</div>
+                <div class="topic-count">10 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="kabuliwala"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Kabuliwala</div>
+                <div class="topic-count">10 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="road"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">The Road Not Taken</div>
+                <div class="topic-count">10 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="amontillado"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">The Cask of Amontillado</div>
+                <div class="topic-count">10 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="daffodils"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Daffodils</div>
+                <div class="topic-count">10 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="frog"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">The Frog and the Nightingale</div>
+                <div class="topic-count">10 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="caesar"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Julius Caesar</div>
+                <div class="topic-count">10 questions available</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Grammar Section -->
+          <div class="topic-category">
+            <div class="category-label">✏️ Grammar</div>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="determiners"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Determiners</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="modals"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Modals</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="conditionals"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Conditionals</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="voice"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Active & Passive Voice</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="reported"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Reported Speech</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="nonfinite"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Non-Finite Verbs</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="clauses"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Clauses</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Writing Section -->
+          <div class="topic-category">
+            <div class="category-label">📝 Writing</div>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="writing"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Creative Writing</div>
+                <div class="topic-count">5 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="phrases"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Phrases</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="adverbs"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Adverbs</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+
+            <label class="topic-option">
+              <input
+                type="checkbox"
+                data-topic="prepositions"
+                onchange="handleTopicChange(this)"
+              />
+              <div class="topic-info">
+                <div class="topic-name">Prepositions</div>
+                <div class="topic-count">6 questions available</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Question Counter Display -->
+        <div class="question-counter">
+          <div class="counter-label">Total Questions Generated</div>
+          <div class="counter-display" id="totalQuestions">0</div>
+          <div class="counter-breakdown">
+            <div class="breakdown-item">
+              <div class="breakdown-value" id="topicCount">0</div>
+              <div>Topics Selected</div>
+            </div>
+            <div class="breakdown-item">
+              <div class="breakdown-value" id="qPerTopic">0</div>
+              <div>Questions per Topic</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="settings-grid">
+          <div class="setting-group">
+            <label class="setting-label">Difficulty Level</label>
+            <select id="difficulty">
+              <option value="mixed">Mixed (Recommended)</option>
+              <option value="easy">Easy (Recall & Understanding)</option>
+              <option value="medium">Medium (Application & Analysis)</option>
+              <option value="hots">HOTS (Evaluation & Creation)</option>
+            </select>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Student Name (Optional)</label>
+            <input
+              type="text"
+              id="studentName"
+              placeholder="Enter student name..."
+            />
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Time Duration</label>
+            <select id="duration">
+              <option value="45">45 Minutes</option>
+              <option value="60" selected>1 Hour</option>
+              <option value="90">1.5 Hours</option>
+              <option value="120">2 Hours</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          class="generate-btn"
+          id="generateBtn"
+          onclick="generatePaper()"
+          disabled
+        >
+          <span>✨</span>
+          Generate Question Paper
+        </button>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Crafting your personalized question paper...</p>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="output-section" id="outputSection">
+        <div class="paper-header">
+          <div class="paper-title">
+            Grade 8 English Literature - Question Paper
+          </div>
+          <div class="paper-meta">
+            <span id="paperDate"></span>
+            <span id="paperDuration"></span>
+            <span id="paperMarks"></span>
+          </div>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <div class="action-buttons">
+          <button class="action-btn" onclick="downloadPDF()">
+            <span>📄</span>
+            Download PDF
+          </button>
+          <button class="action-btn" onclick="printPaper()">
+            <span>🖨️</span>
+            Print
+          </button>
+          <button class="action-btn primary" onclick="regenerate()">
+            <span>🔄</span>
+            Regenerate
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <span id="toastIcon">✅</span>
+      <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+      // Question Templates Database
+      const questionDB = {
+        necklace: [
+          {
+            q: "Describe Mathilde's feelings when she first receives the invitation to the ball.",
+            marks: 3,
+          },
+          {
+            q: "Explain why Mathilde borrowed a necklace instead of buying one.",
+            marks: 3,
+          },
+          {
+            q: "What does the word 'radiant' tell us about Mathilde on the night of the ball?",
+            marks: 2,
+          },
+          {
+            q: "How did Mathilde and her husband change after losing the necklace?",
+            marks: 4,
+          },
+          {
+            q: "What is the biggest irony in the story? Explain in your own words.",
+            marks: 4,
+          },
+          {
+            q: "If you were Monsieur Loisel, would you have supported Mathilde's desire for luxury? Why/why not?",
+            marks: 4,
+          },
+          {
+            q: "Write a short diary entry from Mathilde's perspective the night she discovers the necklace is fake.",
+            marks: 5,
+          },
+          {
+            q: "Compare Mathilde's life before and after the loss of the necklace.",
+            marks: 4,
+          },
+          {
+            q: "Analyze the symbolism of the necklace in the story.",
+            marks: 3,
+          },
+          {
+            q: "Discuss the theme of social class in 'The Necklace'.",
+            marks: 4,
+          },
+        ],
+        kabuliwala: [
+          {
+            q: "Why was Mini initially afraid of the Kabuliwala?",
+            marks: 2,
+          },
+          {
+            q: "What kind of relationship develops between Mini and the Kabuliwala?",
+            marks: 3,
+          },
+          {
+            q: "Explain how the Kabuliwala reminds Mini's father of universal parental love.",
+            marks: 4,
+          },
+          {
+            q: "Why does the Kabuliwala come to Mini's house on her wedding day?",
+            marks: 3,
+          },
+          {
+            q: "What lesson does the story teach about time and change?",
+            marks: 4,
+          },
+          {
+            q: "How does the ending show compassion across cultures?",
+            marks: 4,
+          },
+          {
+            q: "Write a short letter from the Kabuliwala to his daughter after returning to Kabul.",
+            marks: 5,
+          },
+          {
+            q: "If Mini remembered the Kabuliwala as an adult, what might she say to him?",
+            marks: 4,
+          },
+          {
+            q: "Analyze the symbolism of the Kabuliwala's merchandise.",
+            marks: 3,
+          },
+          {
+            q: "Discuss the theme of parenthood in the story.",
+            marks: 4,
+          },
+        ],
+        road: [
+          {
+            q: "What do the two roads symbolize in the poem?",
+            marks: 3,
+          },
+          {
+            q: "Why does the speaker say the roads were 'really about the same'?",
+            marks: 3,
+          },
+          {
+            q: "What emotion does the 'sigh' in the last stanza represent? Explain.",
+            marks: 3,
+          },
+          {
+            q: "Do you think the speaker regrets his choice? Give reasons.",
+            marks: 4,
+          },
+          {
+            q: "How does the poem talk about decisions and their long-term impact?",
+            marks: 4,
+          },
+          {
+            q: "If you were the traveler, which road would you choose and why?",
+            marks: 4,
+          },
+          {
+            q: "Rewrite the last stanza imagining the speaker chose the other road.",
+            marks: 5,
+          },
+          {
+            q: "Is the poem about individuality or destiny? Argue your view.",
+            marks: 4,
+          },
+          {
+            q: "Analyze the imagery of the 'yellow wood'.",
+            marks: 3,
+          },
+          {
+            q: "Discuss the theme of choices in 'The Road Not Taken'.",
+            marks: 4,
+          },
+        ],
+        amontillado: [
+          {
+            q: "What is Montresor's plan for revenge and why does he want 'impunity'?",
+            marks: 3,
+          },
+          {
+            q: "How does Fortunato's pride in wine lead to his downfall?",
+            marks: 3,
+          },
+          {
+            q: "Describe the setting of the catacombs and its effect on the story.",
+            marks: 3,
+          },
+          {
+            q: "What is ironic about Fortunato's jester costume?",
+            marks: 2,
+          },
+          {
+            q: "Why does Montresor keep offering wine to Fortunato?",
+            marks: 3,
+          },
+          {
+            q: "Do you think Montresor's revenge was justified? Explain.",
+            marks: 4,
+          },
+          {
+            q: "Write Fortunato's final thoughts as the wall is completed.",
+            marks: 5,
+          },
+          {
+            q: "How does the last line 'In pace requiescat!' show Montresor's character?",
+            marks: 4,
+          },
+          {
+            q: "Analyze the theme of revenge in the story.",
+            marks: 4,
+          },
+          {
+            q: "Discuss the unreliable narrator technique used by Poe.",
+            marks: 4,
+          },
+        ],
+        daffodils: [
+          {
+            q: "How does the poet feel at the beginning of the poem?",
+            marks: 2,
+          },
+          {
+            q: "What comparison is made between daffodils and stars?",
+            marks: 3,
+          },
+          {
+            q: "What is the 'inward eye' mentioned in the poem?",
+            marks: 3,
+          },
+          {
+            q: "How does nature help the poet in moments of loneliness?",
+            marks: 4,
+          },
+          {
+            q: "Explain the line 'And then my heart with pleasure fills, And dances with the daffodils.'",
+            marks: 4,
+          },
+          {
+            q: "Why is memory important in this poem?",
+            marks: 3,
+          },
+          {
+            q: "Write a short poem about a natural scene that makes you happy.",
+            marks: 5,
+          },
+          {
+            q: "Compare solitude in 'Daffodils' with solitude in 'The Road Not Taken'.",
+            marks: 4,
+          },
+          {
+            q: "Analyze the personification used in the poem.",
+            marks: 3,
+          },
+          {
+            q: "Discuss the theme of nature's healing power.",
+            marks: 4,
+          },
+        ],
+        frog: [
+          {
+            q: "How does the frog convince the nightingale to change her singing style?",
+            marks: 3,
+          },
+          {
+            q: "Why does the nightingale become addicted to applause?",
+            marks: 3,
+          },
+          {
+            q: "What happens to the nightingale when she follows the frog's last advice?",
+            marks: 3,
+          },
+          {
+            q: "Explain the irony in the frog's final comment: 'your song must be your own.'",
+            marks: 4,
+          },
+          {
+            q: "What does the poem warn us about regarding fame and external pressure?",
+            marks: 4,
+          },
+          {
+            q: "How is the frog a symbol of manipulative people?",
+            marks: 4,
+          },
+          {
+            q: "Write an interior monologue from the nightingale's view the night before she dies.",
+            marks: 5,
+          },
+          {
+            q: "Imagine another animal confronts the frog after the nightingale's death. Write their dialogue.",
+            marks: 5,
+          },
+          {
+            q: "Analyze the satire in the poem.",
+            marks: 4,
+          },
+          {
+            q: "Discuss the theme of exploitation.",
+            marks: 4,
+          },
+        ],
+        caesar: [
+          {
+            q: "What does Caesar mean by 'constant as the Northern Star'?",
+            marks: 3,
+          },
+          {
+            q: "Why does Caesar say 'Et tu, Brute?' and what does it reveal?",
+            marks: 4,
+          },
+          {
+            q: "How do the conspirators justify the assassination immediately after?",
+            marks: 3,
+          },
+          {
+            q: "Why does Antony shake hands with the conspirators?",
+            marks: 3,
+          },
+          {
+            q: "What does Antony prophesy in his soliloquy over Caesar's body?",
+            marks: 3,
+          },
+          {
+            q: "Whose judgment is better — Brutus or Cassius — regarding Antony? Why?",
+            marks: 4,
+          },
+          {
+            q: "Write Brutus's speech to the crowd explaining why he killed Caesar.",
+            marks: 5,
+          },
+          {
+            q: "If Caesar had read Artemidorus' letter, how might the story change?",
+            marks: 4,
+          },
+          {
+            q: "Analyze the theme of betrayal in the play.",
+            marks: 4,
+          },
+          {
+            q: "Discuss the use of dramatic irony in Act III.",
+            marks: 4,
+          },
+        ],
+        determiners: [
+          {
+            q: "Fill with correct determiners: ___ moon was shining brightly over ___ mountains.",
+            marks: 2,
+          },
+          {
+            q: "Correct the sentence: She bought new dress for party.",
+            marks: 2,
+          },
+          {
+            q: "Choose: ___ (A / The / An) Kabuliwala gave raisins to Mini.",
+            marks: 1,
+          },
+          {
+            q: "Explain difference between 'a' and 'the' with two examples from the textbook.",
+            marks: 3,
+          },
+          {
+            q: "Rewrite using appropriate determiners: Roads diverged in yellow wood.",
+            marks: 2,
+          },
+          {
+            q: "Create 3 sentences using different types of determiners.",
+            marks: 3,
+          },
+        ],
+        modals: [
+          {
+            q: "Fill: You ___ (should/must) practice more to improve your singing.",
+            marks: 1,
+          },
+          {
+            q: "Rewrite using modal: It is possible that Montresor regrets his action.",
+            marks: 2,
+          },
+          {
+            q: "What does 'might' express in: Mathilde might have lived happily if she had been content?",
+            marks: 2,
+          },
+          {
+            q: "Create sentences using can, could, should, must from any story.",
+            marks: 4,
+          },
+          {
+            q: "Explain difference between 'must' and 'should' with examples.",
+            marks: 3,
+          },
+          {
+            q: "Fill in the blanks with appropriate modals: a) We ___ obey our elders. b) You ___ take an umbrella.",
+            marks: 2,
+          },
+        ],
+        conditionals: [
+          {
+            q: "Complete: If Mathilde ___ (not lose) the necklace, she ___ (be) happy.",
+            marks: 2,
+          },
+          {
+            q: "Rewrite: The nightingale died because she puffed too hard. (Use Type 3 conditional)",
+            marks: 3,
+          },
+          {
+            q: "If Brutus ___ (not allow) Antony to speak, the conspiracy ___ (succeed).",
+            marks: 2,
+          },
+          {
+            q: "Make a zero conditional sentence about nature using 'Daffodils'.",
+            marks: 2,
+          },
+          {
+            q: "Write two Type 2 conditional sentences imagining different endings.",
+            marks: 4,
+          },
+          {
+            q: "Identify the conditional type: If I were you, I would tell the truth.",
+            marks: 1,
+          },
+        ],
+        nonfinite: [
+          {
+            q: "Identify non-finite verbs: Walking alone, the poet saw daffodils dancing.",
+            marks: 2,
+          },
+          {
+            q: "Rewrite using gerund: To read the poem is enjoyable.",
+            marks: 2,
+          },
+          {
+            q: "Convert to infinitive: Singing beautifully made the nightingale famous.",
+            marks: 2,
+          },
+          {
+            q: "Find and classify non-finites in: Tired of practicing, the nightingale burst a vein.",
+            marks: 3,
+          },
+          {
+            q: "Create 3 sentences using participle, gerund, and infinitive.",
+            marks: 3,
+          },
+          {
+            q: "Change to non-finite: While she was walking in the garden, she saw a snake.",
+            marks: 2,
+          },
+        ],
+        voice: [
+          {
+            q: "Change to passive: The frog sold songs for silver.",
+            marks: 2,
+          },
+          {
+            q: "Change to active: The necklace was borrowed by Mathilde.",
+            marks: 2,
+          },
+          {
+            q: "Why do we use passive voice in: Caesar was stabbed by the conspirators.",
+            marks: 3,
+          },
+          {
+            q: "Convert: Brutus allowed Antony to speak at the funeral.",
+            marks: 2,
+          },
+          {
+            q: "Write 3 sentences in active and convert them to passive.",
+            marks: 6,
+          },
+          {
+            q: "Change to passive: Someone has stolen the poet's book.",
+            marks: 2,
+          },
+        ],
+        reported: [
+          {
+            q: "Change to reported speech: Caesar said, 'I am constant as the Northern Star.'",
+            marks: 3,
+          },
+          {
+            q: "Report: Brutus said to Antony, 'You may speak at the funeral.'",
+            marks: 3,
+          },
+          {
+            q: "Change: The frog said to the nightingale, 'Puff your lungs out!'",
+            marks: 3,
+          },
+          {
+            q: "Report a dialogue between Mini and the Kabuliwala.",
+            marks: 4,
+          },
+          {
+            q: "Explain rules for changing pronouns and tenses in reported speech.",
+            marks: 4,
+          },
+          {
+            q: "Convert to indirect: 'Why are you crying?' the mother asked the child.",
+            marks: 2,
+          },
+        ],
+        adverbs: [
+          {
+            q: "Find adverbs: Mathilde danced gracefully at the ball.",
+            marks: 2,
+          },
+          {
+            q: "Fill: The Kabuliwala spoke ___ (gentle/gently) to Mini.",
+            marks: 1,
+          },
+          {
+            q: "Change adjective to adverb: The frog sang loud.",
+            marks: 1,
+          },
+          {
+            q: "Write 5 sentences using different types of adverbs.",
+            marks: 5,
+          },
+          {
+            q: "Explain difference between 'quick' and 'quickly' with examples.",
+            marks: 3,
+          },
+          {
+            q: "Identify the adverb and its type: She sings beautifully.",
+            marks: 2,
+          },
+        ],
+        prepositions: [
+          {
+            q: "Fill: The Kabuliwala came ___ Kabul ___ Calcutta.",
+            marks: 2,
+          },
+          {
+            q: "Correct: She is afraid from the dark catacombs.",
+            marks: 1,
+          },
+          {
+            q: "Use prepositions: The daffodils were ___ the lake ___ the trees.",
+            marks: 2,
+          },
+          {
+            q: "Write sentences using in, on, at, by, with from the stories.",
+            marks: 5,
+          },
+          {
+            q: "Explain difference between 'in' and 'on' with examples.",
+            marks: 3,
+          },
+          {
+            q: "Fill in the blanks: The book is ___ the table ___ the room.",
+            marks: 2,
+          },
+        ],
+        clauses: [
+          {
+            q: "Identify the main and subordinate clause: When the nightingale puffed up, she died.",
+            marks: 2,
+          },
+          {
+            q: "Combine using relative clause: The necklace was fake. Mathilde borrowed it.",
+            marks: 3,
+          },
+          {
+            q: "Write a complex sentence using 'because' about Brutus and Antony.",
+            marks: 2,
+          },
+          {
+            q: "Find adverb clause in: Brutus spoke calmly although the crowd was angry.",
+            marks: 2,
+          },
+          {
+            q: "Create 3 sentences with noun, adjective, and adverb clauses.",
+            marks: 6,
+          },
+          {
+            q: "Identify the type of clause: What he said was true.",
+            marks: 1,
+          },
+        ],
+        phrases: [
+          {
+            q: "Identify the noun phrase: The tall man with a turban carried a heavy bag.",
+            marks: 2,
+          },
+          {
+            q: "Write an adjective phrase describing Mathilde.",
+            marks: 2,
+          },
+          {
+            q: "Convert: The poet wandered lonely as a cloud. → Make it a participial phrase.",
+            marks: 3,
+          },
+          {
+            q: "Find prepositional phrases in the 'Daffodils' poem.",
+            marks: 3,
+          },
+          {
+            q: "Create 3 sentences using different types of phrases.",
+            marks: 6,
+          },
+          {
+            q: "Distinguish between a phrase and a clause with examples.",
+            marks: 3,
+          },
+        ],
+        writing: [
+          {
+            q: "Write a diary entry from Mini's perspective about the Kabuliwala's arrest.",
+            marks: 5,
+          },
+          {
+            q: "Write a character sketch of Montresor in 150–200 words.",
+            marks: 5,
+          },
+          {
+            q: "Write a letter from Antony to Octavius after the assassination.",
+            marks: 5,
+          },
+          {
+            q: "Describe a personal experience of choosing between two paths in life.",
+            marks: 5,
+          },
+          {
+            q: "Write a short story ending where the nightingale survives and confronts the frog.",
+            marks: 6,
+          },
+        ],
+      };
+
+      let selectedTopics = [];
+      const questionsPerTopic = 10;
+
+      function handleTopicChange(checkbox) {
+        const topicId = checkbox.getAttribute("data-topic");
+        const label = checkbox.closest(".topic-option");
+
+        if (checkbox.checked) {
+          if (selectedTopics.length >= 3) {
+            checkbox.checked = false;
+            showToast("You can select maximum 3 topics", "error");
+            return;
+          }
+          selectedTopics.push(topicId);
+          label.classList.add("selected");
+        } else {
+          selectedTopics = selectedTopics.filter((t) => t !== topicId);
+          label.classList.remove("selected");
+        }
+
+        updateCounter();
+      }
+
+      function updateCounter() {
+        const count = selectedTopics.length;
+        const totalQ = count * questionsPerTopic;
+
+        document.getElementById("topicCount").textContent = count;
+        document.getElementById("qPerTopic").textContent =
+          count > 0 ? questionsPerTopic : 0;
+        document.getElementById("totalQuestions").textContent = totalQ;
+        document.getElementById("generateBtn").disabled = count === 0;
+      }
+
+      function generatePaper() {
+        if (selectedTopics.length === 0) return;
+
+        document.getElementById("loading").classList.add("active");
+        document.getElementById("outputSection").classList.remove("active");
+
+        // Simulate AI generation delay
+        setTimeout(() => {
+          const paper = createQuestionPaper();
+          displayPaper(paper);
+          document.getElementById("loading").classList.remove("active");
+          document.getElementById("outputSection").classList.add("active");
+          document.getElementById("outputSection").scrollIntoView({
+            behavior: "smooth",
+          });
+        }, 1500);
+      }
+
+      function createQuestionPaper() {
+        const difficulty = document.getElementById("difficulty").value;
+        const studentName =
+          document.getElementById("studentName").value || "Student";
+        const duration = document.getElementById("duration").value;
+
+        let sections = [];
+        let totalMarks = 0;
+
+        selectedTopics.forEach((topicId, index) => {
+          const topicQuestions = questionDB[topicId] || [];
+          const shuffled = [...topicQuestions].sort(() => 0.5 - Math.random());
+          const selected = shuffled.slice(0, questionsPerTopic);
+
+          let sectionMarks = 0;
+          const questions = selected.map((q, qIndex) => {
+            let modifiedQ = { ...q };
+
+            // Adjust based on difficulty
+            if (difficulty === "easy" && q.marks > 2)
+              modifiedQ.marks = Math.max(2, q.marks - 2);
+            if (difficulty === "medium" && q.marks === 1) modifiedQ.marks = 2;
+            if (difficulty === "hots")
+              modifiedQ.marks = Math.max(3, q.marks + 1);
+
+            // Add variation
+            if (Math.random() > 0.7) {
+              modifiedQ.text =
+                modifiedQ.q + " Justify your answer with textual evidence.";
+            } else {
+              modifiedQ.text = modifiedQ.q;
+            }
+
+            sectionMarks += modifiedQ.marks;
+            return modifiedQ;
+          });
+
+          totalMarks += sectionMarks;
+
+          sections.push({
+            topic: getTopicName(topicId),
+            sectionNum: index + 1,
+            questions: questions,
+            marks: sectionMarks,
+          });
+        });
+
+        return {
+          studentName,
+          duration,
+          totalMarks,
+          date: new Date().toLocaleDateString(),
+          sections,
+        };
+      }
+
+      function getTopicName(id) {
+        const names = {
+          necklace: "The Necklace",
+          kabuliwala: "Kabuliwala",
+          road: "The Road Not Taken",
+          amontillado: "The Cask of Amontillado",
+          daffodils: "Daffodils",
+          frog: "The Frog and the Nightingale",
+          caesar: "Julius Caesar",
+          determiners: "Determiners",
+          modals: "Modals",
+          conditionals: "Conditionals",
+          nonfinite: "Non-Finite Verbs",
+          voice: "Active & Passive Voice",
+          reported: "Reported Speech",
+          adverbs: "Adverbs",
+          prepositions: "Prepositions",
+          clauses: "Clauses",
+          phrases: "Phrases",
+          writing: "Writing Skills",
+        };
+        return names[id] || id;
+      }
+
+      function displayPaper(paper) {
+        document.getElementById("paperDate").textContent =
+          `Date: ${paper.date}`;
+        document.getElementById("paperDuration").textContent =
+          `Duration: ${paper.duration} Minutes`;
+        document.getElementById("paperMarks").textContent =
+          `Total Marks: ${paper.totalMarks}`;
+
+        let html = "";
+        let globalQNum = 1;
+
+        paper.sections.forEach((section) => {
+          html += `
+            <div class="question-block">
+              <div class="section-header">
+                <span class="section-name">Section ${section.sectionNum}: ${section.topic}</span>
+                <span class="section-marks">${section.marks} Marks</span>
+              </div>
+          `;
+
+          section.questions.forEach((q, idx) => {
+            html += `
+              <div class="question-item">
+                <div class="question-number">Q${globalQNum++}.</div>
+                <div class="question-text">${q.text}</div>
+                <span class="question-marks">${q.marks} Marks</span>
+              </div>
+            `;
+          });
+
+          html += "</div>";
+        });
+
+        document.getElementById("questionsContainer").innerHTML = html;
+      }
+
+      function downloadPDF() {
+        showToast("PDF download started...", "success");
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      }
+
+      function printPaper() {
+        window.print();
+      }
+
+      function regenerate() {
+        generatePaper();
+        showToast("New question paper generated!", "success");
+      }
+
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        const icon = document.getElementById("toastIcon");
+        const msg = document.getElementById("toastMessage");
+
+        icon.textContent = type === "success" ? "✅" : "⚠️";
+        msg.textContent = message;
+        toast.className = `toast ${type} show`;
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+
+      function toggleTheme() {
+        const html = document.documentElement;
+        const icon = document.getElementById("theme-icon");
+        if (html.getAttribute("data-theme") === "dark") {
+          html.setAttribute("data-theme", "light");
+          icon.textContent = "☀️";
+          localStorage.setItem("theme", "light");
+        } else {
+          html.setAttribute("data-theme", "dark");
+          icon.textContent = "🌙";
+          localStorage.setItem("theme", "dark");
+        }
+      }
+
+      // Load theme preference
+      window.addEventListener("load", () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "light") toggleTheme();
+      });
+    </script>
+  </body>
+</html>
