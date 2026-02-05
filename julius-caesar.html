@@ -1,0 +1,498 @@
+# Create Julius Caesar HTML page
+julius_caesar_html = '''<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julius Caesar - William Shakespeare | Tapestry</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #475569;
+            --accent: #fbbf24;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-light: #f1f5f9;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 5%;
+        }
+
+        [data-theme="light"] nav { background: rgba(248, 250, 252, 0.95); }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .back-link:hover { color: var(--primary); }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .btn-icon:hover { background: var(--primary); color: white; }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 8rem 5% 4rem;
+        }
+
+        .work-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .work-type {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .author {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .scene-info {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            background: var(--surface);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .content-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .script-text {
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text);
+            white-space: pre-line;
+            padding: 2rem;
+            background: var(--surface-light);
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .character {
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            display: block;
+        }
+
+        .stage-direction {
+            color: var(--text-muted);
+            font-style: italic;
+            margin: 0.5rem 0;
+        }
+
+        .summary {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .themes-list {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .themes-list li {
+            padding: 1rem;
+            background: var(--surface-light);
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .themes-list strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .vocab-item {
+            padding: 1rem;
+            background: var(--surface-light);
+            border-radius: 0.5rem;
+        }
+
+        .vocab-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .vocab-item span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .project-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-box h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-box p {
+            color: var(--text-muted);
+        }
+
+        .highlight-box {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .quote {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: var(--text);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            main { padding: 7rem 1rem 2rem; }
+            .content-section { padding: 1.5rem; }
+            .script-text { font-size: 0.9rem; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="back-link">← Back to Collection</a>
+            <a href="index.html" class="logo">📚 Tapestry</a>
+            <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <header class="work-header">
+            <span class="work-type">Drama</span>
+            <h1>Julius Caesar</h1>
+            <p class="author">by William Shakespeare</p>
+            <p class="scene-info">Act III, Scene I: The Assassination</p>
+        </header>
+
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/6Msgy57rLyc" 
+                    title="Julius Caesar - Act 3 Scene 1"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
+        </div>
+
+        <section class="content-section">
+            <h2>📖 Scene Summary</h2>
+            <p class="summary">
+                The play's pivotal moment occurs in Act III, Scene I of Julius Caesar. Caesar's conceit and faith in his own invincibility 
+                are exposed when he arrives at the Capitol on the Ides of March and disregards the Soothsayer's and Artemidorus' warnings. 
+                Despite a fleeting concern about being discovered, the conspirators carry out their scheme by luring Antony away and kneeling 
+                before Caesar with a fictitious request for the recall of Publius Cimber. Caesar is immediately attacked after he refuses, 
+                declaring himself "constant as the Northern Star." Caesar cries in agony, "Et tu, Brute?" as Brutus delivers the final stroke. 
+                The deed is hailed by the conspirators as liberty. Later, Antony plans retaliation and predicts civil war while feigning 
+                devotion and being allowed to speak at Caesar's funeral.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>🎭 Key Excerpts</h2>
+            
+            <div class="highlight-box">
+                <p class="quote">"I am constant as the Northern Star, Of whose true fixed and resting quality There is no fellow in the firmament."</p>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">— Caesar's declaration of invincibility moments before his death</p>
+            </div>
+
+            <div class="highlight-box">
+                <p class="quote">"Et tu, Brutè?—Then fall, Caesar."</p>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">— Caesar's final words, recognizing the ultimate betrayal</p>
+            </div>
+
+            <div class="highlight-box">
+                <p class="quote">"O pardon me, thou bleeding piece of earth, That I am meek and gentle with these butchers."</p>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">— Antony's soliloquy, revealing his true intentions</p>
+            </div>
+
+            <div class="highlight-box">
+                <p class="quote">"Cry 'Havoc!' and let slip the dogs of war"</p>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">— Antony's prophecy of the chaos to come</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>🎯 Key Themes</h2>
+            <ul class="themes-list">
+                <li>
+                    <strong>Power and Ambition</strong>
+                    The tension between Caesar's ambition and the conspirators' fear of tyranny drives the tragic action.
+                </li>
+                <li>
+                    <strong>Betrayal and Loyalty</strong>
+                    Brutus's betrayal of his friend Caesar in the name of Rome raises questions about conflicting loyalties.
+                </li>
+                <li>
+                    <strong>Fate vs. Free Will</strong>
+                    Caesar ignores warnings (Soothsayer, Artemidorus's letter, Calpurnia's dream) yet seems fated to die.
+                </li>
+                <li>
+                    <strong>Political Idealism vs. Reality</strong>
+                    Brutus's noble motives clash with the cynical political maneuvering of Cassius and Antony.
+                </li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>🔍 Deep Dive Questions</h2>
+            
+            <div class="question">
+                <h4>1. The Northern Star Speech</h4>
+                <p>Caesar's "Northern Star" speech is one of the most famous declarations of absolutism in Shakespeare. How does the imagery of the fixed star versus the "unnumbered sparks" that "are all fire, and every one doth shine" reveal both Caesar's self-perception and the very qualities that make him vulnerable to assassination? In what ways does this cosmic metaphor ironically foreshadow his literal fall?</p>
+            </div>
+
+            <div class="question">
+                <h4>2. Private Grief vs. Public Justification</h4>
+                <p>Examine the dramatic function and emotional progression of Caesar's final words: "Et tu, Brutè?—Then fall, Caesar." How do these six words encapsulate the personal betrayal that matters most to Caesar, and how do they contrast with the conspirators' immediate political slogan "Liberty! Freedom! Tyranny is dead!"? What does this juxtaposition suggest about the gap between private grief and public justification?</p>
+            </div>
+
+            <div class="question">
+                <h4>3. Antony's Duplicity</h4>
+                <p>Antony's two major speeches in this scene—his public greeting to the conspirators and his private soliloquy over Caesar's body—differ sharply in tone and strategy. Analyze how Antony performs "meek and gentle" deference while simultaneously planting the seeds of revenge. How does Shakespeare use dramatic irony in these moments to position the audience as complicit witnesses to Antony's calculated duplicity?</p>
+            </div>
+
+            <div class="question">
+                <h4>4. Cassius vs. Brutus</h4>
+                <p>Cassius repeatedly expresses misgivings about allowing Antony to speak at the funeral ("You know not what you do. Do not consent…" and "I like it not"). To what extent is Cassius's political judgment superior to Brutus's idealism in this scene? Consider how Brutus's decision to grant Antony permission reflects his tragic belief in the power of reason and honor, and how it sets the stage for the collapse of the conspiracy.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>📚 Word Whiz</h2>
+            <div class="vocab-grid">
+                <div class="vocab-item">
+                    <strong>Enfranchisement</strong>
+                    <span>The granting of rights or privileges; liberation from slavery or oppression</span>
+                </div>
+                <div class="vocab-item">
+                    <strong>Prostrate</strong>
+                    <span>Lying stretched out on the ground with face downward; physically or emotionally overcome</span>
+                </div>
+                <div class="vocab-item">
+                    <strong>Havoc</strong>
+                    <span>Widespread destruction; cry of encouragement to predators or warriors</span>
+                </div>
+                <div class="vocab-item">
+                    <strong>Lethe</strong>
+                    <span>In Greek mythology, the river of forgetfulness in Hades; symbolic of death/oblivion</span>
+                </div>
+                <div class="vocab-item">
+                    <strong>Apprehensive</strong>
+                    <span>Able to understand; perceptive; also fearful or anxious about the future</span>
+                </div>
+                <div class="vocab-item">
+                    <strong>Pricked</strong>
+                    <span>Marked or chosen; nominated or selected for a role</span>
+                </div>
+                <div class="vocab-item">
+                    <strong>Shrewdly</strong>
+                    <span>In a clever, sharp, or keen manner; with practical intelligence</span>
+                </div>
+                <div class="vocab-item">
+                    <strong>Swayed</strong>
+                    <span>Influenced or persuaded from a course of action; moved emotionally</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>✍️ Project Catalyst</h2>
+            
+            <div class="project-box">
+                <h4>Diary of the Dead</h4>
+                <p>Write Caesar's diary entry from the afterlife reflecting on his assassination. What would he say to Brutus? How does he view his own hubris now? Would he change anything about his final day?</p>
+            </div>
+
+            <div class="project-box">
+                <h4>Alternate Ending</h4>
+                <p>What if Caesar had read Artemidorus' letter? Write a one-paragraph rewrite of the scene where Caesar heeds the warning and the conspiracy unravels.</p>
+            </div>
+
+            <div class="project-box">
+                <h4>Character Court</h4>
+                <p>Stage a mock trial for the conspirators. Assign students to defend Brutus, prosecute Cassius, and serve as jury. Use evidence from the text to support arguments about whether the assassination was justified.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.addEventListener('load', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') toggleTheme();
+        });
+    </script>
+</body>
+</html>
